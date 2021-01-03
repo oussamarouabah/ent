@@ -828,6 +828,17 @@ func (f Field) MutationReset() string {
 	return name
 }
 
+// MutationSet returns the method name for setting the field value.
+// The default name is "Set<FieldName>". If the the method conflicts
+// with the mutation methods, suffix the method with "Field".
+func (f Field) MutationSet() string {
+	name := "Set" + f.StructField()
+	if _, ok := mutMethods[name]; ok {
+		name += "Field"
+	}
+	return name
+}
+
 // IsBool returns true if the field is a bool field.
 func (f Field) IsBool() bool { return f.Type != nil && f.Type.Type == field.TypeBool }
 
